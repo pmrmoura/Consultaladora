@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-2f-FbS">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Nome" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-2f-FbS">
                                 <rect key="frame" x="20" y="431" width="374" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -135,6 +135,10 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
+                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3aL-qV-Z8X">
+                                        <rect key="frame" x="27" y="572" width="374" height="46"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -204,6 +208,7 @@
                         <outlet property="appointmentTypeLabel" destination="onv-1m-DK0" id="NkT-nh-nbN"/>
                         <outlet property="appointmentValue" destination="dMR-Nq-5zA" id="zd6-5V-ggV"/>
                         <outlet property="appointmentValueLabel" destination="rrF-QZ-G2d" id="4PB-Da-3XG"/>
+                        <outlet property="appointmentsPicker" destination="3aL-qV-Z8X" id="LP0-ZQ-Gph"/>
                         <outlet property="goalProgressLabel" destination="waQ-DH-FE0" id="2Tl-UH-YBR"/>
                         <outlet property="mainView" destination="JsI-3d-nix" id="N3L-2V-Y8s"/>
                         <outlet property="nextButton" destination="Y4m-5e-P3d" id="OVg-MJ-6Cd"/>

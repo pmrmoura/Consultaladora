@@ -51,6 +51,7 @@ class OnBoardingViewController: UIViewController {
             performSegue(withIdentifier: "OnboardingToMain", sender: self)
         }
         if (answers.count < 2) {
+            questionTextField.placeholder = "Meta mensal"
             questionLabel.text = questions[1]
         }
         questionTextField.text = ""

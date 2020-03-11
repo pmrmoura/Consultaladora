@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var resultView: UIView!
     
@@ -28,19 +30,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var showGoalLabel: UILabel!
     @IBOutlet weak var showProgress: UILabel!
     
+    @IBOutlet weak var appointmentsPicker: UIPickerView!
+    
     @IBOutlet weak var nextButton: UIButton!
     
+    var name:String = ""
     var goal:Int = 0
     var goalProgress: Int = 0
+    var typesAppointment:[String] = ["Manutenção", "Primeira Consulta"]
     
     typealias tupleVar = (String, String, String)
-    
-    var name:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        appointmentsPicker.dataSource = self
+        appointmentsPicker.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,11 +54,29 @@ class ViewController: UIViewController {
             name = userDefaults[0]
             goal = Int(userDefaults[1])!
             goalProgress = Int(userDefaults[2])!
-            
-            print(goalProgress)
             welcomeMessageLabel.text = "Olá, \(name)"
             goalProgressLabel.text = "Você já bateu \(goalProgress)/\(goal) da sua meta"
         }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return typesAppointment.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return typesAppointment[row]
+    }
+    
+    func appointmentPrice() -> Int {
+        let appointmentTypePicker = appointmentsPicker.selectedRow(inComponent: 0)
+        if (appointmentTypePicker == 0) {
+            return 230
+        }
+        return 400
     }
     
     func getTextFieldsInput() -> Session {
@@ -82,13 +105,15 @@ class ViewController: UIViewController {
     }
     
     
-    func returnProfit(session: Session) -> Int{
+    func returnProfit(session: Session, selectedAppointmentPrice:Int) -> Int{
         // Multiplica o valor guardado no textfield de consultas pelo Valor
         // menos o custo
-        let appointmentNumberInt =  session.consultasHoje
-        let valueInt = session.valorConsulta
-        let costInt = session.custoConsulta
-        let profit = appointmentNumberInt * (valueInt - costInt)
+//        let appointmentNumberInt =  session.consultasHoje
+//        let valueInt = session.valorConsulta
+//        let costInt = session.custoConsulta
+//        let profit = appointmentNumberInt * (valueInt - costInt)
+//        return profit
+        let profit = session.consultasHoje * selectedAppointmentPrice
         return profit
     }
     
@@ -102,14 +127,16 @@ class ViewController: UIViewController {
     
     
     @IBAction func handleNext() {
-        let sessionValues = getTextFieldsInput()
-        let profit = returnProfit(session: sessionValues)
+        let selectedAppointmentPrice = appointmentPrice()
+        let sessionObject = getTextFieldsInput()
+        let profit = returnProfit(session: sessionObject, selectedAppointmentPrice: selectedAppointmentPrice)
         goalProgress += profit
         let newUserDefaults = [name, String(goal), String(goalProgress)]
         let defaults = UserDefaults.standard
         defaults.set(newUserDefaults, forKey:"UserDefaults")
         hideTextFields()
-        renderProfitAndGoal(profit: Int(profit))
+        // renderProfitAndGoal(profit: Int(profit))
+        renderProfitAndGoal(profit: profit)
     }
     
     @IBAction func handleBack(_ sender: Any) {

@@ -9,12 +9,12 @@
 import Foundation
 
 class Defaults {
-       var name: String
-       var goal: Int
-       var goalProgress: Int
-       init(name:String, goal: Int, goalProgress:Int) {
-           self.name = name
-           self.goal = goal
-           self.goalProgress = goalProgress
-       }
-   }
+    var name: String
+    var goal: Int
+    var goalProgress: Int
+    init(name:String, goal: Int, goalProgress:Int) {
+       self.name = name
+       self.goal = goal
+       self.goalProgress = goalProgress
+    }
+}
