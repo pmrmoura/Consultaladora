@@ -29,19 +29,9 @@ class OnBoardingViewController: UIViewController {
             print(defaultValues)
             UIView.setAnimationsEnabled(false)
             performSegue(withIdentifier: "OnboardingToMain", sender: self)
+            UIView.setAnimationsEnabled(true)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     @IBAction func handleNext(_ sender: UIButton) {
         answers.append(questionTextField.text!)
         if (answers.count == 2) {
@@ -54,6 +44,7 @@ class OnBoardingViewController: UIViewController {
             questionTextField.placeholder = "Meta mensal"
             questionLabel.text = questions[1]
         }
+        
         questionTextField.text = ""
     }
     

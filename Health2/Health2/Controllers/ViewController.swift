@@ -38,6 +38,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     var goal:Int = 0
     var goalProgress: Int = 0
     var typesAppointment:[String] = ["Manutenção", "Primeira Consulta"]
+    var appointmentsPrice:[Int] = [200, 350]
     
     typealias tupleVar = (String, String, String)
     
@@ -73,18 +74,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func appointmentPrice() -> Int {
         let appointmentTypePicker = appointmentsPicker.selectedRow(inComponent: 0)
-        if (appointmentTypePicker == 0) {
-            return 230
-        }
-        return 400
+        return appointmentsPrice[appointmentTypePicker]
     }
     
     func getTextFieldsInput() -> Session {
         // Ler todos os text field
         let appointmentType = Int(self.appointmentType.text!)!
-        let custoConsulta = Int(self.appointmentCost.text!)!
-        let valorConsulta = Int(self.appointmentValue.text!)!
-        let session = Session(consultasHoje: appointmentType, custoConsulta: custoConsulta, valorConsulta: valorConsulta)
+        let session = Session(consultasHoje: appointmentType)
         return session
     }
     
@@ -141,8 +137,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     @IBAction func handleBack(_ sender: Any) {
         appointmentType.text = ""
-        appointmentCost.text = ""
-        appointmentValue.text = ""
         showTextFields()
     }
 }

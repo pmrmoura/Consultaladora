@@ -10,11 +10,7 @@ import Foundation
 
 class Session {
     var consultasHoje: Int
-    var custoConsulta: Int
-    var valorConsulta: Int
-    init (consultasHoje: Int, custoConsulta: Int, valorConsulta:Int) {
+    init (consultasHoje: Int) {
         self.consultasHoje = consultasHoje
-        self.custoConsulta = custoConsulta
-        self.valorConsulta = valorConsulta
     }
 }
