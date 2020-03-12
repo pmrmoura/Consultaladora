@@ -37,8 +37,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     var name:String = ""
     var goal:Int = 0
     var goalProgress: Int = 0
-    var typesAppointment:[String] = ["Manutenção", "Primeira Consulta"]
-    var appointmentsPrice:[Int] = [200, 350]
+    var typesAppointment:[String] = []
+    var appointmentsPrice:[Int] = []
+    
+    var appointments:[String:Any] = [:]
     
     typealias tupleVar = (String, String, String)
     
@@ -47,6 +49,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         // Do any additional setup after loading the view.
         appointmentsPicker.dataSource = self
         appointmentsPicker.delegate = self
+        
+        let defaults = UserDefaults.standard
+        if let appointmentsTypesPrices = defaults.dictionary(forKey: "appointments") {
+            appointments = appointmentsTypesPrices
+            transformDictInTwoArrays()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,6 +65,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             goalProgress = Int(userDefaults[2])!
             welcomeMessageLabel.text = "Olá, \(name)"
             goalProgressLabel.text = "Você já bateu \(goalProgress)/\(goal) da sua meta"
+            print("ded")
         }
     }
     
@@ -102,13 +111,6 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     func returnProfit(session: Session, selectedAppointmentPrice:Int) -> Int{
-        // Multiplica o valor guardado no textfield de consultas pelo Valor
-        // menos o custo
-//        let appointmentNumberInt =  session.consultasHoje
-//        let valueInt = session.valorConsulta
-//        let costInt = session.custoConsulta
-//        let profit = appointmentNumberInt * (valueInt - costInt)
-//        return profit
         let profit = session.consultasHoje * selectedAppointmentPrice
         return profit
     }
@@ -121,6 +123,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         resultView.isHidden = false
     }
     
+    func transformDictInTwoArrays() {
+        for (name, price) in appointments{
+            typesAppointment.append(name)
+            appointmentsPrice.append(price as! Int)
+        }
+    }
     
     @IBAction func handleNext() {
         let selectedAppointmentPrice = appointmentPrice()

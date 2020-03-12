@@ -12,25 +12,34 @@ class AddAppointmentViewController: UIViewController {
     @IBOutlet weak var appointmentNameField: UITextField!
     @IBOutlet weak var appointmentPriceField: UITextField!
     
-    var dede = [:]
+    var dede: [String : Any] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set(dede, forKey: "appointments")
+        let defaults = UserDefaults.standard
+        if let defaults = defaults.dictionary(forKey: "appointments") {
+            dede = defaults
+        }
         // Do any additional setup after loading the view.
     }
     
     @IBAction func handleCancel(_ sender: Any) {
         //        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func handleDone(_ sender: Any) {
         let defaults = UserDefaults.standard
-        if let appointments = defaults.dictionary(forKey: "appointments") {
-            print(appointments)
-        }
+        defaults.set(dede, forKey: "appointments")
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func handleAddAppointment(_ sender: Any) {
         let appointmentName = appointmentNameField.text!
         let appointmentPrice = appointmentPriceField.text!
-        
+        dede[appointmentName] = Int(appointmentPrice)!
+        appointmentNameField.text = ""
+        appointmentPriceField.text = ""
     }
 }

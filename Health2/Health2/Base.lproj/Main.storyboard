@@ -222,6 +222,9 @@
                                 <rect key="frame" x="353" y="15" width="37" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="handleDone:" destination="tPJ-ZX-DS4" eventType="touchUpInside" id="OIs-jO-fcY"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8r-pp-qhV">
                                 <rect key="frame" x="19" y="15" width="48" height="30"/>
