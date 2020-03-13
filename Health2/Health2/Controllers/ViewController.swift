@@ -9,7 +9,7 @@
 import UIKit
 
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var resultView: UIView!
@@ -55,6 +55,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             appointments = appointmentsTypesPrices
             transformDictInTwoArrays()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(loadNewAppointments(notification:)), name: .appointments, object: nil)
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,6 +134,24 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         }
     }
     
+    @objc func loadNewAppointments(notification: NSNotification) {
+        let defaults = UserDefaults.standard
+        typesAppointment = []
+        appointmentsPrice = []
+        if let appointmentsTypesPrices = defaults.dictionary(forKey: "appointments") {
+            appointments = appointmentsTypesPrices
+            transformDictInTwoArrays()
+            appointmentsPicker.dataSource = self
+            appointmentsPicker.delegate = self
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @IBAction func handleNext() {
         let selectedAppointmentPrice = appointmentPrice()
         let sessionObject = getTextFieldsInput()
@@ -147,5 +169,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         appointmentType.text = ""
         showTextFields()
     }
+    
 }
 
+extension Notification.Name {
+    static let appointments = Notification.Name("appointments")
+}

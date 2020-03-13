@@ -20,6 +20,8 @@ class AddAppointmentViewController: UIViewController {
         if let defaults = defaults.dictionary(forKey: "appointments") {
             dede = defaults
         }
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
     
@@ -32,6 +34,7 @@ class AddAppointmentViewController: UIViewController {
     @IBAction func handleDone(_ sender: Any) {
         let defaults = UserDefaults.standard
         defaults.set(dede, forKey: "appointments")
+        NotificationCenter.default.post(name: .appointments, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
