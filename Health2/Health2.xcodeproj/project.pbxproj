@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A37508CC241661BC00919BC7 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37508CB241661BC00919BC7 /* OnBoardingViewController.swift */; };
 		A37508CF24166BB800919BC7 /* nameAndGoalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A37508CD24166BB800919BC7 /* nameAndGoalModel.xcdatamodeld */; };
+		A3997F9D241A62A500A48F9B /* AddAppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3997F9C241A62A500A48F9B /* AddAppointmentViewController.swift */; };
 		A3B634FB2417D8DC006EF693 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B634FA2417D8DC006EF693 /* Session.swift */; };
 		A3B634FD2417D8E8006EF693 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B634FC2417D8E8006EF693 /* Defaults.swift */; };
 		A3EB5D81240D38C000E14D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB5D80240D38C000E14D57 /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		A37508CB241661BC00919BC7 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		A37508CE24166BB800919BC7 /* nameAndGoalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nameAndGoalModel.xcdatamodel; sourceTree = "<group>"; };
+		A3997F9C241A62A500A48F9B /* AddAppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAppointmentViewController.swift; sourceTree = "<group>"; };
 		A3B634FA2417D8DC006EF693 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		A3B634FC2417D8E8006EF693 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		A3EB5D7D240D38C000E14D57 /* Health2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Health2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +52,7 @@
 			children = (
 				A3EB5D84240D38C000E14D57 /* ViewController.swift */,
 				A37508CB241661BC00919BC7 /* OnBoardingViewController.swift */,
+				A3997F9C241A62A500A48F9B /* AddAppointmentViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				A3B634FD2417D8E8006EF693 /* Defaults.swift in Sources */,
 				A3EB5D81240D38C000E14D57 /* AppDelegate.swift in Sources */,
 				A3B634FB2417D8DC006EF693 /* Session.swift in Sources */,
+				A3997F9D241A62A500A48F9B /* AddAppointmentViewController.swift in Sources */,
 				A3EB5D83240D38C000E14D57 /* SceneDelegate.swift in Sources */,
 				A37508CC241661BC00919BC7 /* OnBoardingViewController.swift in Sources */,
 				A37508CF24166BB800919BC7 /* nameAndGoalModel.xcdatamodeld in Sources */,

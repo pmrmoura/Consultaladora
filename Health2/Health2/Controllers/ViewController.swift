@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+    
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var resultView: UIView!
     
@@ -28,19 +30,35 @@ class ViewController: UIViewController {
     @IBOutlet weak var showGoalLabel: UILabel!
     @IBOutlet weak var showProgress: UILabel!
     
+    @IBOutlet weak var appointmentsPicker: UIPickerView!
+    
     @IBOutlet weak var nextButton: UIButton!
     
+    var name:String = ""
     var goal:Int = 0
     var goalProgress: Int = 0
+    var typesAppointment:[String] = []
+    var appointmentsPrice:[Int] = []
+    
+    var appointments:[String:Any] = [:]
     
     typealias tupleVar = (String, String, String)
-    
-    var name:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        appointmentsPicker.dataSource = self
+        appointmentsPicker.delegate = self
         
+        let defaults = UserDefaults.standard
+        if let appointmentsTypesPrices = defaults.dictionary(forKey: "appointments") {
+            appointments = appointmentsTypesPrices
+            transformDictInTwoArrays()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(loadNewAppointments(notification:)), name: .appointments, object: nil)
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,19 +67,33 @@ class ViewController: UIViewController {
             name = userDefaults[0]
             goal = Int(userDefaults[1])!
             goalProgress = Int(userDefaults[2])!
-            
-            print(goalProgress)
             welcomeMessageLabel.text = "Olá, \(name)"
             goalProgressLabel.text = "Você já bateu \(goalProgress)/\(goal) da sua meta"
+            print("ded")
         }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return typesAppointment.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return typesAppointment[row]
+    }
+    
+    func appointmentPrice() -> Int {
+        let appointmentTypePicker = appointmentsPicker.selectedRow(inComponent: 0)
+        return appointmentsPrice[appointmentTypePicker]
     }
     
     func getTextFieldsInput() -> Session {
         // Ler todos os text field
         let appointmentType = Int(self.appointmentType.text!)!
-        let custoConsulta = Int(self.appointmentCost.text!)!
-        let valorConsulta = Int(self.appointmentValue.text!)!
-        let session = Session(consultasHoje: appointmentType, custoConsulta: custoConsulta, valorConsulta: valorConsulta)
+        let session = Session(consultasHoje: appointmentType)
         return session
     }
     
@@ -82,13 +114,8 @@ class ViewController: UIViewController {
     }
     
     
-    func returnProfit(session: Session) -> Int{
-        // Multiplica o valor guardado no textfield de consultas pelo Valor
-        // menos o custo
-        let appointmentNumberInt =  session.consultasHoje
-        let valueInt = session.valorConsulta
-        let costInt = session.custoConsulta
-        let profit = appointmentNumberInt * (valueInt - costInt)
+    func returnProfit(session: Session, selectedAppointmentPrice:Int) -> Int{
+        let profit = session.consultasHoje * selectedAppointmentPrice
         return profit
     }
     
@@ -100,23 +127,51 @@ class ViewController: UIViewController {
         resultView.isHidden = false
     }
     
+    func transformDictInTwoArrays() {
+        for (name, price) in appointments{
+            typesAppointment.append(name)
+            appointmentsPrice.append(price as! Int)
+        }
+    }
+    
+    @objc func loadNewAppointments(notification: NSNotification) {
+        let defaults = UserDefaults.standard
+        typesAppointment = []
+        appointmentsPrice = []
+        if let appointmentsTypesPrices = defaults.dictionary(forKey: "appointments") {
+            appointments = appointmentsTypesPrices
+            transformDictInTwoArrays()
+            appointmentsPicker.dataSource = self
+            appointmentsPicker.delegate = self
+        }
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     @IBAction func handleNext() {
-        let sessionValues = getTextFieldsInput()
-        let profit = returnProfit(session: sessionValues)
+        let selectedAppointmentPrice = appointmentPrice()
+        let sessionObject = getTextFieldsInput()
+        let profit = returnProfit(session: sessionObject, selectedAppointmentPrice: selectedAppointmentPrice)
         goalProgress += profit
         let newUserDefaults = [name, String(goal), String(goalProgress)]
         let defaults = UserDefaults.standard
         defaults.set(newUserDefaults, forKey:"UserDefaults")
         hideTextFields()
-        renderProfitAndGoal(profit: Int(profit))
+        // renderProfitAndGoal(profit: Int(profit))
+        renderProfitAndGoal(profit: profit)
     }
     
     @IBAction func handleBack(_ sender: Any) {
         appointmentType.text = ""
-        appointmentCost.text = ""
-        appointmentValue.text = ""
         showTextFields()
     }
+    
 }
 
+extension Notification.Name {
+    static let appointments = Notification.Name("appointments")
+}

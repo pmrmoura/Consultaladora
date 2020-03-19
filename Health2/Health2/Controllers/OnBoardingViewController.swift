@@ -21,6 +21,8 @@ class OnBoardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,19 +31,9 @@ class OnBoardingViewController: UIViewController {
             print(defaultValues)
             UIView.setAnimationsEnabled(false)
             performSegue(withIdentifier: "OnboardingToMain", sender: self)
+            UIView.setAnimationsEnabled(true)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     @IBAction func handleNext(_ sender: UIButton) {
         answers.append(questionTextField.text!)
         if (answers.count == 2) {
@@ -51,8 +43,10 @@ class OnBoardingViewController: UIViewController {
             performSegue(withIdentifier: "OnboardingToMain", sender: self)
         }
         if (answers.count < 2) {
+            questionTextField.placeholder = "Meta mensal"
             questionLabel.text = questions[1]
         }
+        
         questionTextField.text = ""
     }
     
